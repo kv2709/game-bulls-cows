@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Posts{% endblock %}</h1>
+  <h1>{% block title %}Последние игры{% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href="{{ url_for('blog.create') }}">New</a>
+    <a class="action" href="{{ url_for('blog.all_game_login', id=game['id']) }}">Все игры </a>
+    <a class="action" href="{{ url_for('blog.new_game') }}">Новая игра</a>
   {% endif %}
 {% endblock %}
 
+
 {% block content %}
-  {% for post in posts %}
+  {% for game in games %}
     <article class="post">
       <header>
         <div>
-          <h1>{{ post['title'] }}</h1>
-          <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+          <h1>Продолжительность игры {{ game['interval'] }} сек</h1>
+          <div class="about">Игрок {{ game['username'] }} время {{ game['created'].strftime('%Y-%m-%d') }}</div>
         </div>
-        {% if g.user['id'] == post['author_id'] %}
-          <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
-        {% endif %}
       </header>
-      <p class="body">{{ post['body'] }}</p>
+      <p class="body">Загаданное число {{ game['conceived_number'] }} Количество ходов {{ game['count_step'] }}</p>
     </article>
+
     {% if not loop.last %}
       <hr>
     {% endif %}

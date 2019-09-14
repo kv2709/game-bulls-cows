@@ -1,20 +1,24 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
+<title>{% block title %}{% endblock %}Быки и Коровы</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-    <h1><a href="{{ url_for('index') }}">Flaskr</a></h1> <div class="post"> <div class="about">
-    Flask App. Work directly with DB Postgres <a href="https://github.com/kv2709/pg-flask-blog.git
-">Source in GitHub</a> </div></div>
+    <h1><a href="{{ url_for('index') }}">Быки и Коровы</a></h1>
+  <div class="post">
+    <div class="about">
+      <a href="{{ url_for('rules') }}">Правила игры</a>
+    </div>
+  </div>
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+      <li><a href="{{ url_for('auth.logout') }}">Выход</a>
     {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+      <li><a href="{{ url_for('auth.register') }}">Регистрация</a>
+      <li><a href="{{ url_for('auth.login') }}">Вход</a>
     {% endif %}
   </ul>
 </nav>
+
 <section class="content">
   <header>
     {% block header %}{% endblock %}

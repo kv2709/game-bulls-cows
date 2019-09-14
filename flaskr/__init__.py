@@ -10,10 +10,10 @@ def create_app(test_config=None):
         # a default secret that should be overridden by instance config
         SECRET_KEY="88Ygj4554cvv65v5mfs98dfmx873m329n9384nc9b47923",)
 
-    from flaskr import auth, blog
+    from flaskr import auth, game
 
     app.register_blueprint(auth.bp)
-    app.register_blueprint(blog.bp)
+    app.register_blueprint(game.bp)
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
