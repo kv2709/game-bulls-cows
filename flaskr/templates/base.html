@@ -1,11 +1,11 @@
 <!doctype html>
-<title>{% block title %}{% endblock %}Быки и Коровы</title>
+<title>{% block title %}{% endblock %} Быки и Коровы </title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
     <h1><a href="{{ url_for('index') }}">Быки и Коровы</a></h1>
   <div class="post">
     <div class="about">
-      <a href="{{ url_for('rules') }}">Правила игры</a>
+      <a href="{{ url_for('game.rules') }}">Правила игры</a>
     </div>
   </div>
   <ul>

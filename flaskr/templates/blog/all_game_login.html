@@ -2,7 +2,7 @@
 
 {% block header %}
   <h1>{% block title %}Все игры {{ game['username'] }}{% endblock %}</h1>
-  <a class="action" href="{{ url_for('blog.new_game') }}">Новая игра</a>
+  <a class="action" href="{{ url_for('game.new_game') }}">Новая игра</a>
 {% endblock %}
 
 {% block content %}
@@ -11,11 +11,15 @@
         <article class="post">
           <header>
             <div>
-              <h1>Продолжительность игры {{ game['interval'] }} сек</h1>
-              <div class="about">Игрок {{ game['username'] }} время {{ game['created'].strftime('%Y-%m-%d') }}</div>
+              <h1>Продолжительность игры {{ game['time_game'] }} сек</h1>
+              <div class="about">Игрок {{ game['username'] }}
+                  время {{ game['game_begin'].strftime('%Y-%m-%d') }}</div>
             </div>
+              <a class="action" href="{{ url_for('game.view_game', id=game['id']) }}">Смотреть историю</a>
           </header>
-          <p class="body">Загаданное число {{ game['conceived_number'] }} Количество ходов {{ game['count_step'] }}</p>
+          <p class="body">Загаданное число {{ game['conceived_number'] }}
+                          Количество ходов {{ game['count_step'] }}
+                          Победа/Сдача {{ game['win_los'] }}</p>
         </article>
     {% endif %}
     {% if not loop.last %}

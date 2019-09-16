@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Последние игры{% endblock %}</h1>
+  <h1>{% block title %}Последние игры {% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href="{{ url_for('blog.all_game_login', id=game['id']) }}">Все игры </a>
-    <a class="action" href="{{ url_for('blog.new_game') }}">Новая игра</a>
+{#    <a class="action" href="{{ url_for('blog.all_game_login', id=game['id']) }}">Все игры </a>#}
+    <a class="action" href="{{ url_for('game.new_game') }}">Новая игра</a>
   {% endif %}
 {% endblock %}
 
@@ -14,13 +14,20 @@
     <article class="post">
       <header>
         <div>
-          <h1>Продолжительность игры {{ game['interval'] }} сек</h1>
-          <div class="about">Игрок {{ game['username'] }} время {{ game['created'].strftime('%Y-%m-%d') }}</div>
+          <h1>Продолжительность игры {{ game['time_game'] }} сек</h1>
+            <div class="about">Игрок {{ game['username'] }}
+                               время {{ game['game_begin'].strftime('%Y-%m-%d') }}
+            </div>
+                 {% if g.user['id'] == game['author_id'] %}
+                    <a class="action" href="{{ url_for('game.view_game', id_game=game['id']) }}">Смотреть историю игры </a>
+                 {% endif %}
+
         </div>
       </header>
-      <p class="body">Загаданное число {{ game['conceived_number'] }} Количество ходов {{ game['count_step'] }}</p>
+      <p class="body">Загаданное число {{ game['conceived_number'] }}
+                      Количество ходов {{ game['count_step'] }}
+                      Победа/Сдача {{ game['win_los'] }}</p>
     </article>
-
     {% if not loop.last %}
       <hr>
     {% endif %}

@@ -109,7 +109,6 @@ def login():
         auth_cur = cur.fetchone()
         if auth_cur is not None:
             user = tp_to_dict(auth_cur, cur)
-
         cur.close()
         conn.commit()
         conn.close()
@@ -123,6 +122,7 @@ def login():
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user["id"]
+            print('session["user_id"]', session["user_id"])
             return redirect(url_for("index"))
 
         flash(error)

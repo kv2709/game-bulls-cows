@@ -1,15 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Новая игра{% endblock %}</h1>
+  <h1>{% block title %} Новая игра {{ id_game }} {% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-  <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-    <input type="submit" value="Save">
-  </form>
+  {% for step in steps %}
+      <p class="body"> {{ step['log_game'] }}</p>
+  {% endfor %}
+    <p class="body"> Задуманное число {{ search_num }} Последний выбор {{ last_step }}</p>
+
+    <form method="post">
+    <label for="step_game">Ваш ход</label>
+    <input name="step_game" id="step_game" value="{{ request.form['step_game'] }}" required>
+    <input type="submit" value="Сделать ход">
+    </form>
+      <hr>
+    <form action="{{ url_for('game.los', id_game=999) }}"  method="post">
+    <input class="danger" type="submit" value="Сдаюсь" onclick="return confirm('Вы точно решаете сдаться?');">
+    </form>
 {% endblock %}
