@@ -12,7 +12,7 @@
 {#    <p class="body"> Задуманное число {{ search_num }} Последний выбор {{ last_step }}</p>#}
 
     <form method="post">
-    <label for="step_game">Ваш ход</label>
+    <label for="step_game">Компьютер загадал число! Ваш ход:</label>
     <input name="step_game" id="step_game" value="{{ request.form['step_game'] }}" required>
     <input type="submit" value="Сделать ход">
     </form>

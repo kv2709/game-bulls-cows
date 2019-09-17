@@ -170,14 +170,6 @@ def rules():
 @login_required
 def los(id_game):
     global log_new_game
-    str_flash = 'Игра номер ' + str(id_game) + ' -  сдача!'
+    str_flash = 'Вы сдались! Запись сеанса игры не произведена!'
     flash(str_flash)
-    # conn = get_conn_db()
-    # cur = conn.cursor()
-    # cur.execute(
-    #     "DELETE FROM post WHERE id = %s", (id,)
-    # )
-    # cur.close()
-    # conn.commit()
-    # conn.close()
     return redirect(url_for("game.index"))
