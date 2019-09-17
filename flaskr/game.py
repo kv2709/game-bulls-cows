@@ -3,10 +3,12 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import list_tp_to_list_dict, tp_to_dict, get_conn_db
 import random as rd
-
+import datetime
 
 log_new_game = []
+lst_new_game = []
 search_number = []
+time_game = []
 bp = Blueprint('game', __name__)
 
 
@@ -68,11 +70,11 @@ def validator_input_number(input_str=''):
 def pick_number():
     search_number_lst = []
     list_select = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    step = 0
+    step = 1
     while len(search_number_lst) <= 3:
-        step += 1
         number = rd.choice(list_select)
         if number != '0' or step != 1:
+            step += 1
             list_select.remove(number)
             search_number_lst.append(number)
     return search_number_lst
@@ -95,7 +97,10 @@ def check_number(user_input_str='', search_number_lst=[]):
 @bp.route("/new_game", methods=("GET", "POST"))
 @login_required
 def new_game():
-    global log_new_game, search_number
+    global log_new_game, search_number, time_game, lst_new_game
+
+    time_session_game = datetime.datetime.now()
+    time_game.append(time_session_game)
 
     if request.method == "POST":
         step_game = request.form["step_game"]
@@ -104,26 +109,50 @@ def new_game():
         if valid_input[0] != '':
             flash(valid_input[0])
         else:
+            if not search_number:
+                error = 'Слишком долгое ожидание! Игра завершена без сохраннеия!'
+                flash(error)
+                return redirect(url_for("game.index"))
+
             last_step = valid_input[1]
             bulls_cows = check_number(user_input_str=last_step, search_number_lst=search_number)
-
-            # conn = get_conn_db()
-            # cur = conn.cursor()
-            # cur.execute(
-            #     "INSERT INTO log (game_id, game_log)"
-            #     " VALUES (%s, %s)",
-            #     (step_game, g.user["id"]),
-            # )
-            # cur.close()
-            # conn.commit()
-            # conn.close()
-
             step_dict = {'log_game': last_step + ' ' + bulls_cows}
             log_new_game.append(step_dict)
-            return render_template("blog/new_game.html", steps=log_new_game, last_step=last_step,
-                                   search_num=search_number, id_game=999)
+            lst_new_game.append(last_step + ' ' + bulls_cows)
+            if bulls_cows == '40':
+                count_record_time = len(time_game)
+                sum_time_game = time_game[count_record_time - 1] - time_game[0]
+                sum_time_game_sec = sum_time_game.total_seconds()
+                # Запись сесии игры ====================================
+                conn = get_conn_db()
+                cur = conn.cursor()
+                search_number_str = ''.join(search_number)
+                count_step = len(log_new_game)
+                cur.execute("INSERT INTO game (author_id, conceived_number, count_step, time_game, win_los)"
+                            "VALUES (%s, %s, %s, %s,%s)",
+                            (g.user["id"], search_number_str, count_step, sum_time_game_sec, 1)
+                            )
+                cur.execute("SELECT * FROM game ORDER BY id DESC LIMIT 1")
+                game_id = cur.fetchone()[0]
 
-    return render_template("blog/new_game.html", steps=log_new_game)
+                for i in range(len(lst_new_game)):
+                    cur.execute("INSERT INTO log (game_id, log_game)"
+                                " VALUES (%s, %s)",
+                                (game_id, lst_new_game[i]),
+                                )
+
+                cur.close()
+                conn.commit()
+                conn.close()
+
+                message_win = 'Ваша победа! Количество ходов в сесии ' + str(count_step)
+                flash(message_win)
+                return redirect(url_for("game.index"))
+
+            return render_template("blog/new_game.html", steps=log_new_game, last_step=last_step,
+                                   search_num=search_number)
+
+    return render_template("blog/new_game.html")
 
 
 @bp.route("/<int:id_game>/view_game", methods=("GET", "POST"))
@@ -144,8 +173,6 @@ def los(id_game):
     global log_new_game
     str_flash = 'Игра номер ' + str(id_game) + ' -  сдача!'
     flash(str_flash)
-    log_new_game = []
-
     # conn = get_conn_db()
     # cur = conn.cursor()
     # cur.execute(

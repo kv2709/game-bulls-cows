@@ -122,7 +122,7 @@ def login():
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user["id"]
-            print('session["user_id"]', session["user_id"])
+            # print('session["user_id"]', session["user_id"])
             return redirect(url_for("index"))
 
         flash(error)
