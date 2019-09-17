@@ -159,7 +159,7 @@ def new_game():
 @login_required
 def view_game(id_game):
     game_log = get_game_log(id_game)
-    return render_template("blog/view_game.html", steps=game_log, id_game=id_game)
+    return render_template("blog/view_game.html", steps=game_log)
 
 
 @bp.route("/rules")

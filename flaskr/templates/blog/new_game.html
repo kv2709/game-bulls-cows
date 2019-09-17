@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block content %}
+    <br>
   {% for step in steps %}
-      <p class="body"> {{ step['log_game'] }}</p>
+    {{ step['log_game'] }}<br>
   {% endfor %}
     <p class="body"> Задуманное число {{ search_num }} Последний выбор {{ last_step }}</p>
 
