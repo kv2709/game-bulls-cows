@@ -82,7 +82,6 @@ def pick_number():
 
 def check_number(user_input_str='', search_number_lst=[]):
     user_number_lst = list(user_input_str)
-    print(search_number_lst)
     bulls = 0
     for i in range(len(user_number_lst)):
         if user_number_lst[i] == search_number_lst[i]:
