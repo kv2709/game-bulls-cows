@@ -119,8 +119,6 @@ def new_game():
             log_new_game.append(step_dict)
             lst_new_game.append(last_step + ' ' + bulls_cows)
             if bulls_cows == '40':
-                message_win = 'Вы выиграли! Ждите, идет сохранение игровой сесии'
-                flash(message_win)
                 count_record_time = len(time_game)
                 sum_time_game = time_game[count_record_time - 1] - time_game[0]
                 sum_time_game_sec = sum_time_game.total_seconds()
@@ -146,8 +144,8 @@ def new_game():
                 conn.commit()
                 conn.close()
 
-                # message_win = 'Ваша победа! Количество ходов в сесии ' + str(count_step)
-                # flash(message_win)
+                message_win = 'Поздравляю с победой! Количество ходов в сесии ' + str(count_step)
+                flash(message_win)
                 return redirect(url_for("game.index"))
 
             return render_template("blog/new_game.html", steps=log_new_game, last_step=last_step,
