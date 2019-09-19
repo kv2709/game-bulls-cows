@@ -14,9 +14,13 @@ bp = Blueprint('game', __name__)
 
 @bp.route("/")
 def index():
-    global log_new_game, search_number
+    global log_new_game, search_number, time_game, lst_new_game
     log_new_game = []
+    lst_new_game = []
+    search_number = []
+    time_game = []
     search_number = pick_number()
+
     conn = get_conn_db()
     cur = conn.cursor()
 
@@ -171,5 +175,19 @@ def rules():
 def los(id_game):
     global log_new_game
     str_flash = 'Вы сдались! Запись сеанса игры не произведена!'
+    flash(str_flash)
+    return redirect(url_for("game.index"))
+
+
+@bp.route("/init_game")
+@login_required
+def init_game():
+    global log_new_game, search_number, time_game, lst_new_game
+    log_new_game = []
+    lst_new_game = []
+    search_number = []
+    time_game = []
+    search_number = pick_number()
+    str_flash = 'Число загадано! Можно запускать новую игру!'
     flash(str_flash)
     return redirect(url_for("game.index"))

@@ -3,13 +3,13 @@
 {% block header %}
   <h1>{% block title %}Последние игры{% endblock %}</h1>
   {% if g.user %}
-{#    <a class="action" href="{{ url_for('blog.all_game_login', id=game['id']) }}">Все Ваши игры </a>#}
-    <a class="action" href="{{ url_for('game.new_game') }}">Новая игра</a></h4>
+    <a class="action" href="{{ url_for('game.init_game') }}">Загадать число</a>
+    <a class="action" href="{{ url_for('game.new_game') }}">Новая игра</a>
   {% endif %}
 
 {% endblock %}
 
-
+, id_game=999) }}"  method="post"
 {% block content %}
   {% for game in games %}
     <article class="post">
