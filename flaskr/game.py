@@ -175,7 +175,7 @@ def rules():
 # def los(id_game):
 
 
-@bp.route("/los", methods=("POST",))
+@bp.route("/los")
 @login_required
 def los():
     global log_new_game
