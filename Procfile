@@ -1,1 +1,1 @@
-web: gunicorn flaskr.__init__:'create_app()' -t 120
+web: gunicorn flaskr.__init__:'create_app()' -t 60
