@@ -9,15 +9,12 @@
   {% for step in steps %}
     {{ step['log_game'] }}<br>
   {% endfor %}
-{#    <p class="body"> Задуманное число {{ search_num }} Последний выбор {{ last_step }}</p>#}
-
     <form method="post">
     <label for="step_game">Компьютер загадал число! Ваш ход:</label>
     <input name="step_game" id="step_game" value="{{ request.form['step_game'] }}" required>
     <input type="submit" value="Сделать ход">
     </form>
       <hr>
-{#    <form action="{{ url_for('game.los', id_game=999) }}"  method="post">#}
     <form action="{{ url_for('game.los') }}">
     <input class="danger" type="submit" value="Сдаюсь" onclick="return confirm('Вы точно решаете сдаться?');">
     </form>

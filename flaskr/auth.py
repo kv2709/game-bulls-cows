@@ -76,8 +76,6 @@ def register():
             error = "User {0} is already registered.".format(username)
 
         if error is None:
-            # the name is available, store it in the database and go to
-            # the login page
             cur.execute(
                 "INSERT INTO author (username, password) VALUES (%s, %s)",
                 (username, generate_password_hash(password)),
@@ -119,10 +117,8 @@ def login():
             error = "Incorrect password."
 
         if error is None:
-            # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user["id"]
-            # print('session["user_id"]', session["user_id"])
             return redirect(url_for("index"))
 
         flash(error)

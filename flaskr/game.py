@@ -169,11 +169,6 @@ def view_game(id_game):
 def rules():
     return render_template("blog/rules.html")
 
-#
-# @bp.route("/<int:id_game>/los", methods=("POST",))
-# @login_required
-# def los(id_game):
-
 
 @bp.route("/los")
 @login_required
